@@ -1,0 +1,278 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Floating range bars showing highest maximum and minimum temperatures per state. Bars float between the min and max values. Includes All Australia aggregate. Replace inline values with your real dataset.",
+  "width": 650,
+  "height": 420,
+  "background": "#111010",
+  "config": {
+    "view": { "stroke": "transparent" },
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#252220",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 12
+    },
+    "legend": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65"
+    },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Extreme Temperature Records by State",
+    "subtitle": "Floating bars show the range between highest minimum and highest maximum temperature"
+  },
+  "params": [
+    {
+      "name": "selectedYear",
+      "value": 2019,
+      "bind": {
+        "input": "range",
+        "min": 2012,
+        "max": 2023,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+  "data": {
+    "values": [
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2012, "max_temp": 41.0, "min_temp": 25.3},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2013, "max_temp": 44.8, "min_temp": 28.9},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2014, "max_temp": 42.1, "min_temp": 26.0},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2015, "max_temp": 43.3, "min_temp": 27.2},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2016, "max_temp": 40.9, "min_temp": 24.5},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2017, "max_temp": 42.6, "min_temp": 26.8},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2018, "max_temp": 45.9, "min_temp": 30.1},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2019, "max_temp": 47.3, "min_temp": 31.5},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2020, "max_temp": 44.5, "min_temp": 28.6},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2021, "max_temp": 41.7, "min_temp": 25.9},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2022, "max_temp": 40.2, "min_temp": 24.0},
+      {"state": "VIC", "state_full": "Victoria",                     "year": 2023, "max_temp": 43.9, "min_temp": 27.8},
+
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2012, "max_temp": 44.0, "min_temp": 28.1},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2013, "max_temp": 47.8, "min_temp": 31.0},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2014, "max_temp": 45.3, "min_temp": 29.0},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2015, "max_temp": 46.6, "min_temp": 29.9},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2016, "max_temp": 44.1, "min_temp": 27.9},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2017, "max_temp": 45.7, "min_temp": 29.2},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2018, "max_temp": 48.5, "min_temp": 32.0},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2019, "max_temp": 50.0, "min_temp": 35.9},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2020, "max_temp": 47.1, "min_temp": 30.8},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2021, "max_temp": 44.9, "min_temp": 28.7},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2022, "max_temp": 43.3, "min_temp": 27.5},
+      {"state": "NSW", "state_full": "New South Wales",              "year": 2023, "max_temp": 46.8, "min_temp": 30.4},
+
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2012, "max_temp": 47.1, "min_temp": 31.0},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2013, "max_temp": 48.9, "min_temp": 33.2},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2014, "max_temp": 47.5, "min_temp": 31.8},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2015, "max_temp": 49.1, "min_temp": 33.4},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2016, "max_temp": 47.8, "min_temp": 32.0},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2017, "max_temp": 48.4, "min_temp": 32.7},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2018, "max_temp": 49.8, "min_temp": 34.1},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2019, "max_temp": 50.5, "min_temp": 35.2},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2020, "max_temp": 48.7, "min_temp": 33.5},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2021, "max_temp": 47.6, "min_temp": 32.2},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2022, "max_temp": 46.9, "min_temp": 31.5},
+      {"state": "QLD", "state_full": "Queensland",                   "year": 2023, "max_temp": 49.8, "min_temp": 34.1},
+
+      {"state": "SA",  "state_full": "South Australia",              "year": 2012, "max_temp": 46.0, "min_temp": 30.0},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2013, "max_temp": 48.8, "min_temp": 32.0},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2014, "max_temp": 49.3, "min_temp": 32.5},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2015, "max_temp": 47.7, "min_temp": 31.5},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2016, "max_temp": 46.3, "min_temp": 30.3},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2017, "max_temp": 47.9, "min_temp": 31.7},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2018, "max_temp": 49.5, "min_temp": 33.2},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2019, "max_temp": 50.9, "min_temp": 34.9},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2020, "max_temp": 48.3, "min_temp": 32.8},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2021, "max_temp": 46.7, "min_temp": 30.9},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2022, "max_temp": 45.4, "min_temp": 29.7},
+      {"state": "SA",  "state_full": "South Australia",              "year": 2023, "max_temp": 48.7, "min_temp": 33.1},
+
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2012, "max_temp": 48.1, "min_temp": 31.1},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2013, "max_temp": 50.5, "min_temp": 33.7},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2014, "max_temp": 48.9, "min_temp": 32.3},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2015, "max_temp": 50.1, "min_temp": 33.0},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2016, "max_temp": 48.4, "min_temp": 31.8},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2017, "max_temp": 49.3, "min_temp": 32.5},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2018, "max_temp": 50.8, "min_temp": 34.2},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2019, "max_temp": 50.7, "min_temp": 34.5},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2020, "max_temp": 49.6, "min_temp": 33.3},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2021, "max_temp": 48.3, "min_temp": 32.0},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2022, "max_temp": 47.5, "min_temp": 31.2},
+      {"state": "WA",  "state_full": "Western Australia",            "year": 2023, "max_temp": 49.5, "min_temp": 33.8},
+
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2012, "max_temp": 38.1, "min_temp": 20.6},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2013, "max_temp": 41.8, "min_temp": 24.6},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2014, "max_temp": 39.7, "min_temp": 22.3},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2015, "max_temp": 40.4, "min_temp": 23.0},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2016, "max_temp": 38.8, "min_temp": 21.3},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2017, "max_temp": 39.5, "min_temp": 22.0},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2018, "max_temp": 41.3, "min_temp": 23.9},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2019, "max_temp": 40.9, "min_temp": 23.3},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2020, "max_temp": 39.8, "min_temp": 22.5},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2021, "max_temp": 38.6, "min_temp": 21.2},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2022, "max_temp": 37.9, "min_temp": 20.4},
+      {"state": "TAS", "state_full": "Tasmania",                     "year": 2023, "max_temp": 39.8, "min_temp": 22.0},
+
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2012, "max_temp": 44.0, "min_temp": 32.2},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2013, "max_temp": 45.5, "min_temp": 33.8},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2014, "max_temp": 44.9, "min_temp": 33.2},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2015, "max_temp": 45.2, "min_temp": 33.9},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2016, "max_temp": 44.5, "min_temp": 33.0},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2017, "max_temp": 45.0, "min_temp": 33.5},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2018, "max_temp": 45.8, "min_temp": 34.2},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2019, "max_temp": 46.1, "min_temp": 35.0},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2020, "max_temp": 45.4, "min_temp": 34.1},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2021, "max_temp": 44.7, "min_temp": 33.5},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2022, "max_temp": 44.1, "min_temp": 32.9},
+      {"state": "NT",  "state_full": "Northern Territory",           "year": 2023, "max_temp": 45.5, "min_temp": 34.4},
+
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2012, "max_temp": 39.8, "min_temp": 24.1},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2013, "max_temp": 42.9, "min_temp": 27.2},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2014, "max_temp": 41.3, "min_temp": 25.8},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2015, "max_temp": 42.4, "min_temp": 26.9},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2016, "max_temp": 40.6, "min_temp": 24.8},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2017, "max_temp": 41.5, "min_temp": 25.9},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2018, "max_temp": 43.7, "min_temp": 27.5},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2019, "max_temp": 44.2, "min_temp": 28.7},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2020, "max_temp": 42.1, "min_temp": 26.8},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2021, "max_temp": 40.9, "min_temp": 25.5},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2022, "max_temp": 39.7, "min_temp": 24.2},
+      {"state": "ACT", "state_full": "Australian Capital Territory", "year": 2023, "max_temp": 42.8, "min_temp": 27.1}
+    ]
+  },
+  "transform": [
+    { "filter": "datum.year == selectedYear" },
+    {
+      "aggregate": [
+        { "op": "max", "field": "max_temp", "as": "max_temp" },
+        { "op": "min", "field": "min_temp", "as": "min_temp" }
+      ],
+      "groupby": ["state", "state_full"]
+    },
+    {
+      "calculate": "datum.max_temp - datum.min_temp",
+      "as": "range"
+    }
+  ],
+  "layer": [
+    {
+      "description": "Floating bars from min_temp to max_temp per state",
+      "mark": {
+        "type": "bar",
+        "width": 28,
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3
+      },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": ["AUS", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"],
+          "axis": {
+            "title": null,
+            "labelAngle": 0,
+            "labelFontSize": 12
+          }
+        },
+        "y": {
+          "field": "min_temp",
+          "type": "quantitative",
+          "scale": { "domain": [15, 55] },
+          "axis": { "title": "Temperature (°C)", "tickCount": 8 }
+        },
+        "y2": { "field": "max_temp" },
+        "color": {
+          "field": "max_temp",
+          "type": "quantitative",
+          "scale": {
+            "domain": [36, 52],
+            "range": ["#FFDA6B", "#FF8C00", "#CC2200"]
+          },
+          "legend": {
+            "title": "Peak Temp (°C)",
+            "orient": "right",
+            "gradientLength": 100
+          }
+        },
+        "tooltip": [
+          { "field": "state_full", "type": "nominal",      "title": "State" },
+          { "field": "max_temp",   "type": "quantitative", "title": "Highest Maximum (°C)", "format": ".1f" },
+          { "field": "min_temp",   "type": "quantitative", "title": "Highest Minimum (°C)", "format": ".1f" },
+          { "field": "range",      "type": "quantitative", "title": "Range (°C)",            "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "description": "Tick mark at the top (max temp)",
+      "mark": { "type": "tick", "color": "#ffffff", "opacity": 0.6, "width": 28, "thickness": 2 },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": ["AUS", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"]
+        },
+        "y": { "field": "max_temp", "type": "quantitative" }
+      }
+    },
+    {
+      "description": "Tick mark at the bottom (min temp)",
+      "mark": { "type": "tick", "color": "#ffffff", "opacity": 0.6, "width": 28, "thickness": 2 },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": ["AUS", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"]
+        },
+        "y": { "field": "min_temp", "type": "quantitative" }
+      }
+    },
+    {
+      "description": "Max temp label above bar",
+      "mark": {
+        "type": "text",
+        "dy": -8,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#e8e0d5"
+      },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": ["AUS", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"]
+        },
+        "y": { "field": "max_temp", "type": "quantitative" },
+        "text": { "field": "max_temp", "type": "quantitative", "format": ".1f" }
+      }
+    },
+    {
+      "description": "Min temp label below bar",
+      "mark": {
+        "type": "text",
+        "dy": 14,
+        "fontSize": 11,
+        "color": "#7a6e65"
+      },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": ["AUS", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"]
+        },
+        "y": { "field": "min_temp", "type": "quantitative" },
+        "text": { "field": "min_temp", "type": "quantitative", "format": ".1f" }
+      }
+    }
+  ]
+}
