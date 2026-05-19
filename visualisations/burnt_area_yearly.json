@@ -36,7 +36,7 @@
   },
 
   "data": {
-    "url": "./data/aus-annual-area-burnt-by-wildfires.csv",
+    "url": "../data/aus-annual-area-burnt-by-wildfires.csv",
     "format": {
       "type": "csv"
     }
