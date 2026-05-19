@@ -29,7 +29,7 @@
     {
       "description": "Australia base map outline",
       "data": {
-        "url": "../data/states.geojson",
+        "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/states.geojson",
         "format": { "type": "json" }
       },
       "mark": {
@@ -42,7 +42,7 @@
     {
       "description": "Fire hotspot gridded squares",
       "data": {
-        "url": "../data/hotspots.csv",
+        "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/hotspots.csv",
         "format": {
           "type": "csv",
           "parse": {
