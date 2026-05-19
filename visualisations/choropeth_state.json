@@ -1,0 +1,76 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "background": "#1a1a1a",
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "description": "Base Map Layer",
+      "data": {
+        "url": "../data/states.geojson",
+        "format": {"type": "json", "property": "features"} 
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {
+              "values": [
+                {"state": "New South Wales", "hectares": 12500000},
+                {"state": "Victoria", "hectares": 8200000},
+                {"state": "Queensland", "hectares": 22000000},
+                {"state": "South Australia", "hectares": 5100000},
+                {"state": "Western Australia", "hectares": 18000000},
+                {"state": "Tasmania", "hectares": 1200000},
+                {"state": "Northern Territory", "hectares": 35000000},
+                {"state": "Australian Capital Territory", "hectares": 180000}
+              ]
+            },
+            "key": "state",
+            "fields": ["hectares"]
+          }
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "hectares",
+          "type": "quantitative",
+          "scale": {"scheme": "orangered"}
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+          {"field": "hectares", "type": "quantitative", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "description": "Labels Layer",
+      "data": {
+        "values": [
+          {"state": "NSW", "lat": -32.5, "lon": 146.5},
+          {"state": "VIC", "lat": -37.0, "lon": 144.5},
+          {"state": "QLD", "lat": -22.0, "lon": 144.5},
+          {"state": "SA", "lat": -30.0, "lon": 135.5},
+          {"state": "WA", "lat": -27.0, "lon": 122.0},
+          {"state": "TAS", "lat": -42.0, "lon": 146.5},
+          {"state": "NT", "lat": -19.5, "lon": 133.0},
+          {"state": "ACT", "lat": -35.5, "lon": 149.1}
+        ]
+      },
+      "mark": {"type": "text", "color": "white", "dy": -10},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "state", "type": "nominal"}
+      }
+    }
+  ]
+}

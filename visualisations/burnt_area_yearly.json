@@ -1,0 +1,175 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "description": "Annual area burnt by wildfires in Australia (2012,2017)",
+
+  "width": 550,
+  "height": 300,
+  "background": "#1a1a1a",
+
+  "title": {
+    "text": "Australia: Annual Area Burnt by Wildfires (2012,2017)",
+    "anchor": "start",
+    "fontSize": 18,
+    "color": "#F5F0E8"
+  },
+
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+
+    "axis": {
+      "labelColor": "#F5F0E8",
+      "titleColor": "#F5F0E8",
+      "gridColor": "#333333",
+      "domainColor": "#555555",
+      "tickColor": "#555555",
+      "labelFontSize": 11,
+      "titleFontSize": 13
+    },
+
+    "legend": {
+      "labelColor": "#F5F0E8",
+      "titleColor": "#F5F0E8"
+    }
+  },
+
+  "data": {
+    "url": "../data/aus-annual-area-burnt-by-wildfires.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "transform": [
+    {
+      "filter": "datum.Entity == 'Australia'"
+    }
+  ],
+
+  "layer": [
+    {
+      "mark": {
+        "type": "area",
+        "color": "#FF8C00",
+        "opacity": 0.2
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal",
+          "timeUnit": "year",
+          "axis": {
+            "title": "Year",
+            "format": "%Y",
+            "labelAngle": 0
+          }
+        },
+
+        "y": {
+          "field": "Annual area burnt by wildfires",
+          "type": "quantitative",
+          "axis": {
+            "title": "Area Burnt (hectares)",
+            "format": "~s"
+          }
+        }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "line",
+        "color": "#FF8C00",
+        "strokeWidth": 3,
+        "point": {
+          "filled": true,
+          "fill": "#FFD27F",
+          "size": 90
+        }
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal",
+          "timeUnit": "year"
+        },
+
+        "y": {
+          "field": "Annual area burnt by wildfires",
+          "type": "quantitative"
+        },
+
+        "tooltip": [
+          {
+            "field": "Entity",
+            "type": "nominal"
+          },
+          {
+            "field": "Year",
+            "type": "temporal",
+            "timeUnit": "year"
+          },
+          {
+            "field": "Annual area burnt by wildfires",
+            "type": "quantitative",
+            "title": "Area Burnt",
+            "format": ","
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "rank"
+            }
+          ],
+
+          "sort": [
+            {
+              "field": "Annual area burnt by wildfires",
+              "order": "descending"
+            }
+          ]
+        },
+
+        {
+          "filter": "datum.rank == 1"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "dy": -18,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#FFDA6B"
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal",
+          "timeUnit": "year"
+        },
+
+        "y": {
+          "field": "Annual area burnt by wildfires",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "value": "Peak"
+        }
+      }
+    }
+  ]
+}

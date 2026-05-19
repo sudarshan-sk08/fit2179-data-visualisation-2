@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Animated gridded fire hotspot density map across Australia using NASA FIRMS VIIRS NOAA-20 data.",
+  "width": 700,
+  "height": 500,
+  "background": "#1a1a1a",
+  "config": {
+    "legend": {
+      "labelColor": "#F5F0E8",
+      "titleColor": "#F5F0E8"
+    },
+    "view": { "stroke": "transparent" }
+  },
+  "projection": { "type": "mercator" },
+  "params": [
+    {
+      "name": "selectedYear",
+      "value": 2020,
+      "bind": {
+        "input": "range",
+        "min": 2020,
+        "max": 2024,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "description": "Australia base map outline",
+      "data": {
+        "url": "../data/states.geojson",
+        "format": { "type": "json" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "steelblue",
+        "stroke": "white",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "description": "Fire hotspot gridded squares",
+      "data": {
+        "url": "../data/hotspots.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "longitude": "number",
+            "latitude": "number",
+            "count": "number",
+            "year": "number"
+          }
+        }
+      },
+      "transform": [
+        { "filter": "datum.year == selectedYear" }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.6,
+        "stroke": "none"
+      },
+      "encoding": {
+        "longitude": { "field": "longitude", "type": "quantitative" },
+        "latitude": { "field": "latitude", "type": "quantitative" },
+        "size": { "value": 150 },
+        "color": {
+          "field": "count",
+          "type": "quantitative",
+          "scale": { "range": ["#FFDA6B", "#FF8C00", "#CC2200"] },
+          "legend": { "title": "Fire Detections", "orient": "bottom-right" }
+        },
+        "tooltip": [
+          { "field": "longitude", "type": "quantitative", "title": "Longitude", "format": ".1f" },
+          { "field": "latitude", "type": "quantitative", "title": "Latitude", "format": ".1f" },
+          { "field": "count", "type": "quantitative", "title": "Fire Detections" },
+          { "field": "year", "type": "ordinal", "title": "Year" }
+        ]
+      }
+    }
+  ],
+  "title": {
+    "text": "Fire Hotspot Density Across Australia (Gridded, NASA FIRMS VIIRS NOAA-20)",
+    "color": "#F5F0E8",
+    "fontSize": 16,
+    "anchor": "start"
+  }
+}

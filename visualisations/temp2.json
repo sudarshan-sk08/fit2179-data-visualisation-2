@@ -1,0 +1,84 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": 1000,
+  "height": 550,
+
+  "background": "#1a1a1a",
+
+  "title": {
+    "text": "Global Wildfire Burnt Area",
+    "color": "#F5F0E8"
+  },
+
+  "projection": {
+    "type": "equalEarth"
+  },
+
+  "params": [
+    {
+      "name": "year",
+      "value": 2020,
+      "bind": {
+        "input": "range",
+        "min": 2012,
+        "max": 2026,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+    "format": {
+      "type": "topojson",
+      "feature": "countries"
+    }
+  },
+
+  "transform": [
+    {
+      "lookup": "id",
+      "from": {
+        "data": {
+          "url": "../data/annual-area-burnt-per-wildfire.csv"
+        },
+        "key": "Code",
+        "fields": [
+          "Entity",
+          "Year",
+          "Annual area burnt per wildfire"
+        ]
+      }
+    },
+    {
+      "filter": "datum.Year == year"
+    }
+  ],
+
+  "mark": {
+    "type": "geoshape",
+    "stroke": "white",
+    "strokeWidth": 0.5
+  },
+
+  "encoding": {
+    "color": {
+      "field": "Annual area burnt per wildfire",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "orangered"
+      }
+    },
+
+    "tooltip": [
+      { "field": "Entity", "type": "nominal" },
+      { "field": "Year", "type": "quantitative" },
+      {
+        "field": "Annual area burnt per wildfire",
+        "type": "quantitative"
+      }
+    ]
+  }
+}

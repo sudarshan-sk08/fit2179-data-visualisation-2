@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AUSTRALIAN BUSHFIRES</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #111010;
+      color: #e8e0d5;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    /* Wrapper */
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* Title block */
+    .title-block {
+      padding: 52px 0 40px;
+      border-bottom: 1px solid #252220;
+      margin-bottom: 52px;
+    }
+
+    .title-block h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: #FF8C00;
+      margin-bottom: 4px;
+    }
+
+    .title-block .subtitle {
+      font-size: 14px;
+      color: #e8e0d5;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .title-block p {
+      max-width: 620px;
+      color: #e8e0d5;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px;
+      letter-spacing: 0.05em;
+      color: #e8e0d5;
+      border-left: 3px solid #FF8C00;
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* Two-column: text left, chart right */
+    .row {
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+    }
+
+    .row.flip { flex-direction: row-reverse; }
+
+    .col-text {
+      flex: 0 0 280px;
+      padding-top: 4px;
+    }
+
+    .col-text p {
+      color: #e8e0d5;
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .col-chart { flex: 1; min-width: 0; }
+
+    /* Full-width chart (no text column) */
+    .chart-full { width: 100%; }
+
+    /* Chart label */
+    .chart-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e8e0d5;
+      margin-bottom: 6px;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid #252220;
+      margin: 52px 0;
+    }
+
+    /* Vega embed cleanup */
+    .vega-embed summary { display: none !important; }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #252220;
+      padding-top: 28px;
+      margin-top: 64px;
+      font-size: 12px;
+      color: #e8e0d5;
+      line-height: 1.9;
+    }
+
+    .footer strong { color: #e8e0d5; font-weight: 400; }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .row, .row.flip { flex-direction: column; }
+      .col-text { flex: none; width: 100%; }
+      .title-block h1 { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Title -->
+  <div class="title-block">
+    <div class="subtitle">Data Visualisation &nbsp;·&nbsp; Australian Bushfires</div>
+    <h1>Australian Bushfires</h1>
+    <p>
+      DUMMY TEXT. Something introducing the website. Talk about how every summer Australia goes through it's fire season. Risk of bushfires for the landscape, wildlife and communities. Maybe something else too
+    </p>
+  </div>
+
+
+  <!-- Section 1: Global — text sits ABOVE the map -->
+  <div class="section">
+    <h2>A World on Fire</h2>
+    <p style="color:#e8e0d5; font-size:14px; line-height:1.85; margin-bottom:20px;">
+      Bushfires, or Wildfires as they are more commonly known globally are events that affect almost every country.
+      Australia is not alone in facing increasing fire risk, but it does see itself consistently ranking among the
+      world's most fire-affected nations. This map shows the average area burned per wildfire event by country.
+      <br><br>
+      Use the <strong>year slider</strong> to see how fire severity has shifted globally between 2012 and 2026.
+    </p>
+    <div id="chart-world"></div>
+  </div>
+
+  <hr class="divider" />
+
+
+  <!-- Section 2: Scale -->
+  <div class="section">
+    <h2>The Scale of Australian Bushfires</h2>
+
+    <!-- Line chart with dummy text to its RIGHT -->
+    <div class="row" style="margin-bottom: 40px;">
+      <div class="col-chart">
+        <div id="chart-line"></div>
+      </div>
+      <div class="col-text">
+        <p>
+          DUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXT
+        </p>
+      </div>
+    </div>
+
+    <!-- Weekly cumulative -->
+    <div class="row flip">
+      <div class="col-chart">
+        <div id="chart-weekly"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Section 3: Where -->
+  <div class="section">
+
+    <!-- Choropleth: text left -->
+    <div class="row" style="margin-bottom: 40px;">
+      <div class="col-text">
+        <p>
+          DUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXT
+        </p>
+      </div>
+      <div class="col-chart">
+        <div id="chart-aus"></div>
+      </div>
+    </div>
+
+    <!-- Dot map: text right -->
+    <div class="row flip">
+      <div class="col-text">
+        <p>
+          NASA satellite data captures individual fire hotspot detections
+          across the continent. The density of dots in the north reflects
+          how often those regions burn. Compare this with the choropleth —
+          northern fires are many but small; southern fires are fewer but
+          far more severe per event. Talk about the filtering done here
+        </p>
+      </div>
+      <div class="col-chart">
+        <div id="chart-dots"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <div class="footer">
+    <strong>Data sources:</strong><br>
+    AFAC — Australasian Fire and Emergency Service Authorities Council &nbsp;·&nbsp;
+    NASA FIRMS — Fire Information for Resource Management System &nbsp;·&nbsp;
+    Bureau of Meteorology (BOM) &nbsp;·&nbsp;
+    Our World in Data — Global wildfire area burned &nbsp;·&nbsp;
+    DELWP — Victorian fire history (data.vic.gov.au)
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  const CHARTS = {
+    world:  'vis/global_burnt_area_yearly.json',
+    line:   'vis/burnt_area_yearly.json',
+    weekly: 'vis/weekly_cumalative.json',
+    aus:    'vis/choropeth_state.json',
+    dots:   'vis/hotspot_2019_2024.json'
+  };
+
+  const OPTS = {
+    actions:  false,
+    renderer: 'canvas',
+    config: {
+      background: 'transparent',
+      view:   { stroke: 'transparent' },
+      axis:   { labelColor: '#7a6e65', titleColor: '#7a6e65', gridColor: '#252220', domainColor: '#353030', tickColor: '#353030' },
+      legend: { labelColor: '#7a6e65', titleColor: '#7a6e65' },
+      title:  { color: '#e8e0d5', subtitleColor: '#7a6e65' }
+    }
+  };
+
+  async function load(id, path) {
+    try {
+      const res  = await fetch(path);
+      if (!res.ok) throw new Error(res.status);
+      const spec = await res.json();
+      spec.background = 'transparent';
+      await vegaEmbed('#' + id, spec, OPTS);
+    } catch (e) {
+      document.getElementById(id).innerHTML =
+        '<p style="padding:20px;font-size:12px;color:#504840">Could not load: ' + path + '</p>';
+    }
+  }
+
+  load('chart-world',  CHARTS.world);
+  load('chart-line',   CHARTS.line);
+  load('chart-weekly', CHARTS.weekly);
+  load('chart-aus',    CHARTS.aus);
+  load('chart-dots',   CHARTS.dots);
+</script>
+</body>
+</html>

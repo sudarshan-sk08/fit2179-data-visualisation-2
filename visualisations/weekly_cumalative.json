@@ -1,0 +1,340 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "description": "Australia cumulative wildfire area burnt by week across years",
+
+  "background": "#121212",
+
+  "title": {
+    "text": "Australia: Cumulative Area Burnt by Wildfires by Week",
+    "subtitle": "Select a year or zoom into specific periods",
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 13,
+    "color": "#F5F0E8",
+    "subtitleColor": "#B8B8B8"
+  },
+
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+
+    "axis": {
+      "labelColor": "#F5F0E8",
+      "titleColor": "#F5F0E8",
+      "gridColor": "#2A2A2A",
+      "domainColor": "#555555",
+      "tickColor": "#555555"
+    },
+
+    "legend": {
+      "labelColor": "#F5F0E8",
+      "titleColor": "#F5F0E8"
+    }
+  },
+
+  "data": {
+    "url": "../data/cumulative-area-burnt-by-wildfires-by-week.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "transform": [
+    {
+      "filter": "datum.Entity == 'Australia'"
+    },
+
+    {
+      "fold": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "as": ["FireYear", "Burn"]
+    },
+
+    {
+      "calculate": "toNumber(datum.Year)",
+      "as": "Week"
+    },
+
+    {
+      "calculate": "toNumber(datum.Burn)",
+      "as": "BurnValue"
+    }
+  ],
+
+  "params": [
+    {
+      "name": "selectedYear",
+
+      "bind": {
+        "input": "select",
+
+        "options": [
+          "All",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+
+        "name": "Select Year: "
+      },
+
+      "value": "All"
+    },
+
+    {
+      "name": "brush",
+      "select": {
+        "type": "interval",
+        "encodings": ["x"]
+      }
+    }
+  ],
+
+  "vconcat": [
+    {
+      "width": 900,
+      "height": 500,
+
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Week",
+          "type": "quantitative",
+          "title": "Week",
+
+          "scale": {
+            "domain": {
+              "param": "brush"
+            }
+          }
+        },
+
+        "y": {
+          "field": "BurnValue",
+          "type": "quantitative",
+          "title": "Cumulative Area Burnt",
+
+          "scale": {
+            "zero": true
+          }
+        },
+
+        "detail": {
+          "field": "FireYear"
+        },
+
+        "color": {
+          "field": "FireYear",
+          "type": "nominal",
+
+          "scale": {
+            "domain": [
+              "2012",
+              "2013",
+              "2014",
+              "2015",
+              "2016",
+              "2017",
+              "2018",
+              "2019",
+              "2020",
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025",
+              "2026"
+            ],
+
+            "range": [
+              "#1f77b4",
+              "#ff7f0e",
+              "#2ca02c",
+              "#d62728",
+              "#9467bd",
+              "#8c564b",
+              "#e377c2",
+              "#7f7f7f",
+              "#bcbd22",
+              "#17becf",
+              "#6baed6",
+              "#fd8d3c",
+              "#74c476",
+              "#9e9ac8",
+              "#fdd0a2"
+            ]
+          },
+
+          "legend": {
+            "title": "Season"
+          },
+
+          "condition": [
+            {
+              "test": "selectedYear !== 'All' && datum.FireYear === selectedYear",
+              "value": "#FF3B30"
+            },
+            {
+              "test": "selectedYear !== 'All' && datum.FireYear !== selectedYear",
+              "value": "#4A4A4A"
+            }
+          ]
+        },
+
+        "opacity": {
+          "condition": {
+            "test": "selectedYear === 'All' || datum.FireYear === selectedYear",
+            "value": 1
+          },
+
+          "value": 0.25
+        },
+
+        "tooltip": [
+          {
+            "field": "FireYear",
+            "title": "Season"
+          },
+          {
+            "field": "Week",
+            "title": "Week"
+          },
+          {
+            "field": "BurnValue",
+            "title": "Area Burnt"
+          }
+        ]
+      }
+    },
+
+    {
+      "width": 900,
+      "height": 80,
+
+      "mark": {
+        "type": "line",
+        "strokeWidth": 1
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Week",
+          "type": "quantitative",
+          "title": "Zoom Range"
+        },
+
+        "y": {
+          "field": "BurnValue",
+          "type": "quantitative",
+
+          "axis": {
+            "grid": false,
+            "tickCount": 3
+          }
+        },
+
+        "detail": {
+          "field": "FireYear"
+        },
+
+        "color": {
+          "field": "FireYear",
+          "type": "nominal",
+
+          "scale": {
+            "domain": [
+              "2012",
+              "2013",
+              "2014",
+              "2015",
+              "2016",
+              "2017",
+              "2018",
+              "2019",
+              "2020",
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025",
+              "2026"
+            ],
+
+            "range": [
+              "#1f77b4",
+              "#ff7f0e",
+              "#2ca02c",
+              "#d62728",
+              "#9467bd",
+              "#8c564b",
+              "#e377c2",
+              "#7f7f7f",
+              "#bcbd22",
+              "#17becf",
+              "#6baed6",
+              "#fd8d3c",
+              "#74c476",
+              "#9e9ac8",
+              "#fdd0a2"
+            ]
+          },
+
+          "legend": null,
+
+          "condition": [
+            {
+              "test": "selectedYear !== 'All' && datum.FireYear === selectedYear",
+              "value": "#FF3B30"
+            },
+            {
+              "test": "selectedYear !== 'All' && datum.FireYear !== selectedYear",
+              "value": "#4A4A4A"
+            }
+          ]
+        },
+
+        "opacity": {
+          "condition": {
+            "test": "selectedYear === 'All' || datum.FireYear === selectedYear",
+            "value": 1
+          },
+
+          "value": 0.2
+        }
+      }
+    }
+  ]
+}
