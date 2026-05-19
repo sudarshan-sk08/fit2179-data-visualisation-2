@@ -227,6 +227,29 @@
     </div>
   </div>
 
+  <hr class="divider" />
+
+
+  <!-- Section 4: Temperature -->
+  <div class="section">
+    <h2>Extreme Temperatures by State</h2>
+
+    <div class="row">
+      <div class="col-text">
+        <p>
+          DUMMY TEXT. Something about how rising temperatures are closely linked
+          to fire risk. Each bar shows the range between the highest minimum and
+          highest maximum temperature recorded in that state for the selected year.
+          Use the year slider to track how extreme heat has shifted across
+          Australia over time.
+        </p>
+      </div>
+      <div class="col-chart">
+        <div id="chart-temp"></div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Footer -->
   <div class="footer">
@@ -246,7 +269,8 @@
     line:   'visualisations/burnt_area_yearly.json',
     weekly: 'visualisations/weekly_cumalative.json',
     aus:    'visualisations/choropeth_state.json',
-    dots:   'visualisations/hotspot_2019_2024.json'
+    dots:   'visualisations/hotspot_2019_2024.json',
+    temp:   'visualisations/yearly_temperature.json'
   };
 
   const OPTS = {
@@ -279,6 +303,7 @@
   load('chart-weekly', CHARTS.weekly);
   load('chart-aus',    CHARTS.aus);
   load('chart-dots',   CHARTS.dots);
+  load('chart-temp',   CHARTS.temp);
 </script>
 </body>
 </html>
