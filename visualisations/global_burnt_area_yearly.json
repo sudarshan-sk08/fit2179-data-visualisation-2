@@ -74,7 +74,7 @@
           "lookup": "normalized_name",
           "from": {
             "data": {
-              "url": "../data/annual-area-burnt-per-wildfire-wide.csv",
+              "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/annual-area-burnt-per-wildfire-wide.csv",
               "format": { "type": "csv" }
             },
             "key": "Entity",
