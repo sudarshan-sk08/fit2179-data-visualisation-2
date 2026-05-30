@@ -45,7 +45,7 @@
     }
   ],
   "data": {
-    "url": "../data/states-max-min-temp.csv",
+    "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/states-max-min-temp.csv",
     "format": {
       "type": "csv",
       "parse": {"year": "number", "max_temp": "number", "min_temp": "number"}
