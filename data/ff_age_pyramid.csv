@@ -1,0 +1,11 @@
+age_group,type,count,sort_order
+Under 30,Salaried,1537,1
+30-39,Salaried,5707,2
+40-49,Salaried,5362,3
+50-59,Salaried,4626,4
+60+,Salaried,1898,5
+Under 30,Volunteer,22173,1
+30-39,Volunteer,23634,2
+40-49,Volunteer,24419,3
+50-59,Volunteer,30399,4
+60+,Volunteer,60834,5
