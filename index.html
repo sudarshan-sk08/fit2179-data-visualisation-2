@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AUSTRALIAN BUSHFIRES</title>
+  <title>Australian Bushfires</title>
 
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {box-sizing: border-box; margin: 0; padding: 0;}
 
     body {
       background: #111010;
@@ -24,9 +24,8 @@
       line-height: 1.75;
     }
 
-    /* Wrapper */
     .page {
-      max-width: 1020px;
+      max-width: 1260px;
       margin: 0 auto;
       padding: 0 24px 80px;
     }
@@ -52,11 +51,11 @@
       color: #e8e0d5;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     .title-block p {
-      max-width: 620px;
+      max-width: 1200px;
       color: #e8e0d5;
       font-size: 14px;
       line-height: 1.8;
@@ -77,17 +76,17 @@
       margin-bottom: 20px;
     }
 
-    /* Two-column: text left, chart right */
+    /* Two-column row */
     .row {
       display: flex;
-      gap: 36px;
+      gap: 28px;
       align-items: flex-start;
     }
 
     .row.flip { flex-direction: row-reverse; }
 
     .col-text {
-      flex: 0 0 280px;
+      flex: 0 0 260px;
       padding-top: 4px;
     }
 
@@ -97,18 +96,62 @@
       line-height: 1.85;
     }
 
+    .col-text p + p {
+      margin-top: 16px;
+    }
+
     .col-chart { flex: 1; min-width: 0; }
 
-    /* Full-width chart (no text column) */
+    /* Centred chart */
+    .chart-centred {
+      display: flex;
+      justify-content: center;
+    }
+
+    .chart-centred > div { width: 100%; }
+
+    /* Full-width chart */
     .chart-full { width: 100%; }
 
-    /* Chart label */
-    .chart-label {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+    /* Caption below a chart - full width */
+    .chart-caption {
+      font-size: 14px;
       color: #e8e0d5;
-      margin-bottom: 6px;
+      line-height: 1.85;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    /* Side-by-side charts */
+    .two-charts {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    .two-charts .chart-half { flex: 1; min-width: 0; }
+
+    /* Text row below two-charts */
+    .two-texts {
+      display: flex;
+      gap: 28px;
+      margin-top: 20px;
+    }
+
+    .two-texts .text-half {
+      flex: 1;
+      font-size: 14px;
+      color: #e8e0d5;
+      line-height: 1.85;
+    }
+
+    /* Section intro - full width */
+    .section-intro {
+      color: #e8e0d5;
+      font-size: 14px;
+      line-height: 1.85;
+      margin-bottom: 32px;
+      width: 100%;
     }
 
     /* Divider */
@@ -135,9 +178,11 @@
 
     /* Responsive */
     @media (max-width: 700px) {
-      .row, .row.flip { flex-direction: column; }
-      .col-text { flex: none; width: 100%; }
-      .title-block h1 { font-size: 48px; }
+      .row, .row.flip   {flex-direction: column;}
+      .two-charts       {flex-direction: column;}
+      .two-texts        {flex-direction: column;}
+      .col-text         {flex: none; width: 100%;}
+      .title-block h1   {font-size: 48px;}
     }
   </style>
 </head>
@@ -146,107 +191,244 @@
 
   <!-- Title -->
   <div class="title-block">
-    <div class="subtitle">Data Visualisation &nbsp;·&nbsp; Australian Bushfires</div>
+    <div class="subtitle">Data Visualisation 2</div>
     <h1>Australian Bushfires</h1>
     <p>
-      DUMMY TEXT. Something introducing the website. Talk about how every summer Australia goes through it's fire season. Risk of bushfires for the landscape, wildlife and communities. Maybe something else too
+      Every summer, Australia prepares for fire season. This is a period of intense heat, dry conditions and rapidly spreading flames
+      that threaten lives, homes, and ecosystems across the continent. Such events make global headlines due to the severity despite 
+      most other countries also battling wildfires of their own.
+      This visualisation explores the scale, geography, climate drivers, financial cost, and the people on the frontline of 
+      Australia's bushfires.
     </p>
   </div>
 
 
-  <!-- Section 1: Global — text sits ABOVE the map -->
+  <!-- SECTION 1 - Global Wildfires -->
   <div class="section">
-    <h2>A World on Fire</h2>
+    <h2>Wildfires Globally</h2>
     <p style="color:#e8e0d5; font-size:14px; line-height:1.85; margin-bottom:20px;">
-      Bushfires, or Wildfires as they are more commonly known globally are events that affect almost every country.
-      Australia is not alone in facing increasing fire risk, but it does see itself consistently ranking among the
-      world's most fire-affected nations. This map shows the average area burned per wildfire event by country.
+      Bushfires, or wildfires as they are more commonly known globally, are events that affect almost
+      every country. While some countries face increased burning per wildfire event occasionally due to an increasing fire risk, 
+      the data shows that Australia consistently ranks among the world's most fire-affected nations. 
+      This map shows the average area burned per wildfire event by country. The countries in grey don't have sufficient data.
       <br><br>
       Use the <strong>year slider</strong> to see how fire severity has shifted globally between 2012 and 2026.
     </p>
-    <div id="chart-world"></div>
+    <div class="chart-centred">
+      <div id="chart-world"></div>
+    </div>
   </div>
 
   <hr class="divider" />
 
 
-  <!-- Section 2: Scale -->
+  <!-- SECTION 2 - Scale of Australian fires -->
   <div class="section">
     <h2>The Scale of Australian Bushfires</h2>
 
-    <!-- Line chart with dummy text to its RIGHT -->
-    <div class="row" style="margin-bottom: 40px;">
+    <div class="row" style="margin-bottom: 40px; align-items: flex-start;">
       <div class="col-chart">
         <div id="chart-line"></div>
       </div>
-      <div class="col-text">
+      <div class="col-text" style="flex: 0 0 320px;">
         <p>
-          DUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXT
+          Australia has always experienced bushfires, but the frequency and severity of catastrophic
+          seasons has increased markedly in recent decades. It shows that the area burnt is consistently high, 
+          and rises occasionally to extreme levels approximately every 10 years. The area burnt by these wildfires 
+          can often be greater than the area of many countries.
+          <br><br>
+          A key thing to note is that while the 2019-2020 Black Summer was incredibly extreme, this was due to multiple
+          small scale bushfires. This means that a singular bushfire didn't burn as much area, but collectively all 
+          bushfires had an immense effect.
         </p>
       </div>
     </div>
 
-    <!-- Weekly cumulative -->
-    <div class="row flip">
-      <div class="col-chart">
-        <div id="chart-weekly"></div>
-      </div>
+    <div class="chart-full">
+      <div id="chart-weekly"></div>
     </div>
   </div>
 
+  <hr class="divider" />
 
-  <!-- Section 3: Where -->
+
+  <!-- SECTION 3 - When and Where -->
   <div class="section">
+    <h2>Where and When Bushfires Occur</h2>
 
-    <!-- Choropleth: text left -->
-    <div class="row" style="margin-bottom: 40px;">
+    <div class="row" style="margin-bottom: 32px;">
       <div class="col-text">
         <p>
-          Probably going to delete this visualisation and include something different
-          DUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXTDUMMY TEXT
+          Through satellite data collected by the VIIRS satellite by NASA FIRMS, individual fire 
+          hotspot anomalies can be found. The dataset is immense as majority of the detections are 
+          reflective of low-intensity grassfires and other small scale controlled burning of land.
+          As a result, the data has been filtered to only show fires that have an average intensity 
+          greater than 50 MW. It shows that the north of the country burns frequently 
+          but it's primarily comprised of smaller scale fires. In contrast, the south-east of 
+          the country burns far less often but each event is capable of devastating entire communities.
         </p>
-      </div>
-      <div class="col-chart">
-        <div id="chart-aus"></div>
-      </div>
-    </div>
-
-    <!-- Dot map: text right -->
-    <div class="row flip">
-      <div class="col-text">
         <p>
-          NASA satellite data captures individual fire hotspot detections
-          across the continent. The density of dots in the north reflects
-          how often those regions burn. Compare this with the choropleth —
-          northern fires are many but small; southern fires are fewer but
-          far more severe per event. Talk about the filtering done here
+          The Forest Fire Danger Index (FFDI) measures how dangerous conditions are for fire
+          on any given day. The heatmap below shows average FFDI across Victoria's nine fire
+          regions by month. The Mallee and Wimmera in the north-west consistently record the
+          highest values. The 2019-20 Black Summer stands out across many regions and a wide timeframe.
         </p>
       </div>
       <div class="col-chart">
         <div id="chart-dots"></div>
       </div>
     </div>
+
+    <!-- FFDI full width -->
+    <div class="chart-full">
+      <div id="chart-ffdi"></div>
+    </div>
   </div>
 
   <hr class="divider" />
 
 
-  <!-- Section 4: Temperature -->
+  <!-- SECTION 4 - Climate Connection -->
   <div class="section">
-    <h2>Extreme Temperatures by State</h2>
+    <h2>Link to the Temperature</h2>
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 40px;">
       <div class="col-text">
         <p>
-          DUMMY TEXT. Something about how rising temperatures are closely linked
-          to fire risk. Each bar shows the range between the highest minimum and
-          highest maximum temperature recorded in that state for the selected year.
-          Use the year slider to track how extreme heat has shifted across
-          Australia over time.
+          Temperature extremes are one of the key drivers of severe fire conditions. This can 
+          be as a result of vegetation drying out in periods of high temperature, low humidity 
+          and no recent rain. This leads to the vegetation becoming more flammable and fires are 
+          more likely to start, and continue to burn in such weather conditions.
+          <br><br>
+          As a result, it is important to note the maximum temperatures found in each region.
+          However, as temperatures can be varying across the day, it can 
+          often be confusing to find what is important.
+          <br><br>
+          This chart shows the highest maximum and minimum temperatures recorded in each state each year.
+          The data is collected manually through an interface on the Bureau of Meteorology's website.
         </p>
       </div>
       <div class="col-chart">
         <div id="chart-temp"></div>
+      </div>
+    </div>
+
+    <div class="row flip">
+      <div class="col-chart">
+        <div id="chart-bump"></div>
+      </div>
+      <div class="col-text">
+        <p>
+          Which state runs hottest? This bump chart tracks the annual ranking of each state
+          by its highest recorded maximum temperature. Rank 1 means the hottest state that year.
+          Western Australia and South Australia battle for the top spots most years, while
+          Tasmania consistently anchors the bottom. In general, the years where rankings shuffle
+          dramatically tend to coincide with the worst fire seasons.
+          <br><br>
+          However, it is worth noting that there isn't a particularly direct relationship between 
+          bushfires and the temperature. While both can be linked with each other, only having a 
+          high temperature isn't a sign of bushfire activity.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+
+  <!-- SECTION 5 - Financial Cost -->
+  <div class="section">
+    <h2>The Financial Cost</h2>
+
+    <div class="chart-full" style="margin-bottom: 12px;">
+      <div id="chart-lollipop"></div>
+    </div>
+    <p class="chart-caption" style="margin-bottom: 40px;">
+      The insured cost of Australia's worst bushfires runs into the billions. While the 
+      cost of all bushfires is high and cannot be understated, the severity of the Black Summer 
+      is shown clearly. It was found to have generated $2.4 billion in insurance claims alone.
+      This is more than four times the next costliest event and is linked to the vast number of 
+      people that were affected.
+      <br><br>
+      Values are normalised to 2022 values so events across different
+      years are directly comparable. Data is sourced and filtered from the Insurance Council of Australia.
+    </p>
+
+    <div class="row flip">
+      <div class="col-chart">
+        <div id="chart-insurance-type"></div>
+      </div>
+      <div class="col-text">
+        <p>
+          Not all fires destroy the same things. This chart breaks down insurance claims by
+          category for each major event - domestic building, contents, motor, and commercial
+          property. Community fires like Tathra and Yarloop are almost entirely residential,
+          while Perth Hills and Black Summer show a far higher proportion of commercial losses.
+          <br><br>
+          The location and the type of insurance claims also sheds light onto the industry that 
+          is primarily active within such regions. This is shown through the Great Ocean Road in 2015 
+          where the primary affected regions involved holiday houses and therefore fell under the domestic 
+          building category.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+
+  <!-- SECTION 6 - Spotlight on Firefighters -->
+  <div class="section">
+    <h2>Spotlight on Firefighters</h2>
+
+    <p class="section-intro">
+      A lot of respect must be paid to the firefighters who risk their lives to control the fires and 
+      save communities. This involves domestic firefighters and those who fly into the country from 
+      other nations to aid with the firefighting effort.
+      Australia's fire service relies overwhelmingly on volunteers, yet that volunteer base
+      is shrinking and ageing. Understanding the workforce behind bushfire response is essential
+      to understanding Australia's long-term fire readiness.
+    </p>
+
+    <!-- Dot matrix: text left, chart right -->
+    <div class="row" style="margin-bottom: 48px;">
+      <div class="col-text">
+        <p>
+          Each dot represents 500 firefighters. Gold dots are salaried career staff and red dots
+          are volunteers. The sea of red tells the story immediately that volunteers outnumber salaried
+          firefighters by more than 6 to 1. NSW's column towers over every other state, but even
+          there the gold is barely visible at the base. It highlights the efforts from volunteers who 
+          take time out of their lives to put their lives at risk, and save communities.
+        </p>
+      </div>
+      <div class="col-chart">
+        <div id="chart-dotmatrix"></div>
+      </div>
+    </div>
+
+    <!-- Slope + age pyramid side by side -->
+    <div class="two-charts">
+      <div class="chart-half">
+        <div id="chart-slope"></div>
+      </div>
+      <div class="chart-half">
+        <div id="chart-pyramid"></div>
+      </div>
+    </div>
+
+    <!-- Text below slope and pyramid -->
+    <div class="two-texts">
+      <div class="text-half">
+        Australia is losing its volunteer firefighters. Between 2015-16 and 2024-25, NSW alone
+        lost nearly 29,000 volunteers which is a decline of 36%. Every state except WA recorded a fall.
+        As the volunteer base shrinks, the pressure on career fire services and on communities
+        in fire-prone areas grows significantly.
+      </div>
+      <div class="text-half">
+        The volunteer workforce is also ageing. Nationally, more than 60,000 volunteer
+        firefighters are aged 60 or older and forms the single largest age group, making up 38%
+        of all volunteers. By contrast, salaried firefighters peak in the 30-39 bracket.
+        When today's 60+ volunteers retire, there is no clear pipeline of younger replacements.
       </div>
     </div>
   </div>
@@ -255,34 +437,42 @@
   <!-- Footer -->
   <div class="footer">
     <strong>Data sources:</strong><br>
-    AFAC — Australian Fire and Emergency Service Authorities Council &nbsp;·&nbsp;
-    NASA FIRMS — Fire Information for Resource Management System &nbsp;·&nbsp;
+    AFAC - Australasian Fire and Emergency Service Authorities Council &nbsp;·&nbsp;
+    NASA FIRMS - Fire Information for Resource Management System &nbsp;·&nbsp;
     Bureau of Meteorology (BOM) &nbsp;·&nbsp;
-    Our World in Data — Global wildfire area burned &nbsp;·&nbsp;
-    DELWP — Victorian fire history (data.vic.gov.au)
+    University of Melbourne &nbsp;·&nbsp;
+    Our World in Data &nbsp;·&nbsp;
+    Insurance Council of Australia &nbsp;·&nbsp;
+    Productivity Commission
   </div>
 
 </div><!-- /page -->
 
 <script>
   const CHARTS = {
-    world:  'visualisations/global_burnt_area_yearly.json',
-    line:   'visualisations/burnt_area_yearly.json',
-    weekly: 'visualisations/weekly_cumalative.json',
-    aus:    'visualisations/choropeth_state.json',
-    dots:   'visualisations/hotspot_2019_2024.json',
-    temp:   'visualisations/yearly_temperature.json'
+    world:          'visualisations/global_burnt_area_yearly.json',
+    line:           'visualisations/burnt_area_yearly.json',
+    weekly:         'visualisations/weekly_cumalative.json',
+    dots:           'visualisations/hotspot_2019_2024.json',
+    ffdi:           'visualisations/fire_danger_index_heatmap.json',
+    temp:           'visualisations/yearly_temperature.json',
+    bump:           'visualisations/temp_bump.json',
+    lollipop:       'visualisations/insurance_cost_lollipop.json',
+    insuranceType:  'visualisations/insurance_type.json',
+    dotmatrix:      'visualisations/firefighter_dot_matrix.json',
+    slope:          'visualisations/firefighter_count_slope.json',
+    pyramid:        'visualisations/firefighter_age_pyramid.json'
   };
 
   const OPTS = {
-    actions:  false,
+    actions: false,
     renderer: 'canvas',
     config: {
       background: 'transparent',
-      view:   { stroke: 'transparent' },
-      axis:   { labelColor: '#7a6e65', titleColor: '#7a6e65', gridColor: '#252220', domainColor: '#353030', tickColor: '#353030' },
-      legend: { labelColor: '#7a6e65', titleColor: '#7a6e65' },
-      title:  { color: '#e8e0d5', subtitleColor: '#7a6e65' }
+      view: {stroke: 'transparent'},
+      axis: {labelColor: '#7a6e65', titleColor: '#7a6e65', gridColor: '#252220', domainColor: '#353030', tickColor: '#353030'},
+      legend: {labelColor: '#7a6e65', titleColor: '#7a6e65'},
+      title: {color: '#e8e0d5', subtitleColor: '#7a6e65'}
     }
   };
 
@@ -299,12 +489,18 @@
     }
   }
 
-  load('chart-world',  CHARTS.world);
-  load('chart-line',   CHARTS.line);
-  load('chart-weekly', CHARTS.weekly);
-  load('chart-aus',    CHARTS.aus);
-  load('chart-dots',   CHARTS.dots);
-  load('chart-temp',   CHARTS.temp);
+  load('chart-world',          CHARTS.world);
+  load('chart-line',           CHARTS.line);
+  load('chart-weekly',         CHARTS.weekly);
+  load('chart-dots',           CHARTS.dots);
+  load('chart-ffdi',           CHARTS.ffdi);
+  load('chart-temp',           CHARTS.temp);
+  load('chart-bump',           CHARTS.bump);
+  load('chart-lollipop',       CHARTS.lollipop);
+  load('chart-insurance-type', CHARTS.insuranceType);
+  load('chart-dotmatrix',      CHARTS.dotmatrix);
+  load('chart-slope',          CHARTS.slope);
+  load('chart-pyramid',        CHARTS.pyramid);
 </script>
 </body>
 </html>
