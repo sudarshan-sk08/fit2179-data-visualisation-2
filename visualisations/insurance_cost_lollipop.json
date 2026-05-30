@@ -1,0 +1,124 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Horizontal lollipop chart of normalised insured losses (AUD, 2022 values) per major Australian bushfire catastrophe event. Source: Insurance Council of Australia.",
+  "width": 1000,
+  "height": 380,
+  "background": "#111010",
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#252220",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 11
+    },
+    "legend": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "labelFontSize": 11
+    },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Insurance Cost of Australia's Worst Recent Bushfires",
+    "subtitle": "Values are insured losses per event and normalised to 2022"
+  },
+  "data": {
+    "values": [
+      {"event": "Black Summer 2019-20",       "year": 2019, "loss_m": 2405.4, "claims": 38936, "state": "Multiple"},
+      {"event": "Victorian Bushfires 2026",   "year": 2026, "loss_m": 574.4,  "claims": 4781,  "state": "VIC"},
+      {"event": "Great Ocean Rd 2015",        "year": 2015, "loss_m": 164.4,  "claims": null,  "state": "VIC"},
+      {"event": "Tathra Bushfires 2018",      "year": 2018, "loss_m": 111.1,  "claims": 1032,  "state": "NSW"},
+      {"event": "Perth Hills Bushfire 2021",  "year": 2021, "loss_m": 106.9,  "claims": 1342,  "state": "WA"},
+      {"event": "Yarloop Bushfires 2016",     "year": 2016, "loss_m": 93.6,   "claims": 1358,  "state": "WA"},
+      {"event": "Bunyip Bushfires 2019",      "year": 2019, "loss_m": 54.0,   "claims": 519,   "state": "VIC"},
+      {"event": "NSW Bushfires 2017",         "year": 2017, "loss_m": 52.3,   "claims": null,  "state": "NSW"},
+      {"event": "NSW/QLD Sep Bushfires 2019", "year": 2019, "loss_m": 15.9,   "claims": null,  "state": "Multiple"},
+      {"event": "Tasmania Bushfires 2016",    "year": 2016, "loss_m": 3.5,    "claims": null,  "state": "TAS"},
+      {"event": "NSW Bushfires Nov 2016",     "year": 2016, "loss_m": 1.6,    "claims": null,  "state": "NSW"},
+      {"event": "Bunker Hill Bushfire 2019",  "year": 2019, "loss_m": 1.0,    "claims": null,  "state": "VIC"}
+    ]
+  },
+  "layer": [
+    {
+      "description": "Stem",
+      "mark": {"type": "rule", "strokeWidth": 4 },
+      "encoding": {
+        "y": {
+          "field": "event",
+          "type": "nominal",
+          "sort": {"field": "loss_m", "order": "descending"},
+          "axis": {"title": null, "labelFontSize": 11}
+        },
+        "x":  {"datum": 0 },
+        "x2": {"field": "loss_m", "type": "quantitative" },
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "scale": {
+            "domain": ["VIC",     "NSW",     "WA",      "TAS",     "Multiple"],
+            "range":  ["#CC2200", "#FF8C00", "#4caf7d", "#8ecae6", "#FFDA6B"]
+          }
+        }
+      }
+    },
+    {
+      "description": "Circle at end of stem",
+      "mark": {"type": "circle", "size": 150 },
+      "encoding": {
+        "y": {
+          "field": "event",
+          "type": "nominal",
+          "sort": { "field": "loss_m", "order": "descending"}
+        },
+        "x": {
+          "field": "loss_m",
+          "type": "quantitative",
+          "axis": {"title": "Insured Losses (AUD millions)", "format": "~s"}
+        },
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "scale": {
+            "domain": ["VIC",     "NSW",     "WA",      "TAS",     "Multiple"],
+            "range":  ["#CC2200", "#FF8C00", "#4caf7d", "#8ecae6", "#FFDA6B"]
+          },
+          "legend": { "title": "State", "orient": "bottom-right" }
+        },
+        "tooltip": [
+          {"field": "event",   "type": "nominal",      "title": "Event"},
+          {"field": "year",    "type": "quantitative",  "title": "Year",                     "format": "d"},
+          {"field": "state",   "type": "nominal",       "title": "State"},
+          {"field": "loss_m",  "type": "quantitative",  "title": "Insured Losses (AUD M)",   "format": ",.1f"},
+          {"field": "claims",  "type": "quantitative",  "title": "Total Claims"}
+        ]
+      }
+    },
+    {
+      "description": "Value label to the right of each dot",
+      "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 10, "color": "#7a6e65"},
+      "encoding": {
+        "y": {
+          "field": "event",
+          "type": "nominal",
+          "sort": { "field": "loss_m", "order": "descending"}
+        },
+        "x": {"field": "loss_m", "type": "quantitative"},
+        "text": {
+          "field": "loss_m",
+          "type": "quantitative",
+          "format": ".0f"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Slope chart showing volunteer firefighter numbers by state between 2015-16 and 2024-25. Label dy offsets use scale:null so values are treated as raw pixels.",
+  "width": 400,
+  "height": 420,
+  "background": "#111010",
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#252220",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 12
+    },
+    "legend": {"disable": true},
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Volunteer Firefighter Count by State",
+    "subtitle": "Comparing between 2015 and 2025"
+  },
+  "layer": [
+    {
+      "description": "Slope lines",
+      "data": {
+        "url": "../data/ff_workforce_time.csv",
+        "format": {"type": "csv", "parse": { "volunteer_firefighters": "number" }}
+      },
+      "transform": [
+        { "filter": "datum.year == '2015-16' || datum.year == '2024-25'" },
+        { "calculate": "datum.year == '2015-16' ? 0 : 1", "as": "x_pos" }
+      ],
+      "mark": {"type": "line", "strokeWidth": 2, "interpolate": "linear"},
+      "encoding": {
+        "x": {
+          "field": "x_pos",
+          "type": "quantitative",
+          "scale": {"domain": [-0.6, 1.6]},
+          "axis": {
+            "values": [0, 1],
+            "labelExpr": "datum.value == 0 ? '2015-16' : '2024-25'",
+            "title": "Season",
+            "labelFontSize": 13,
+            "labelFontWeight": "bold",
+            "tickCount": 2,
+            "gridColor": "#353030"
+          }
+        },
+        "y": {
+          "field": "volunteer_firefighters",
+          "type": "quantitative",
+          "axis": {"title": "Volunteer Firefighter Count", "format": "~s", "tickCount": 6}
+        },
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "scale": {
+            "domain": ["NSW",     "VIC",     "QLD",     "WA",      "SA",      "TAS",     "ACT",     "NT"],
+            "range":  ["#CC2200", "#FF8C00", "#FFDA6B", "#4caf7d", "#5BC8F5", "#c46ab0", "#b388ff", "#e06c4a"]
+          }
+        },
+        "detail": {"field": "state"}
+      }
+    },
+    {
+      "description": "Endpoint dots",
+      "data": {
+        "url": "../data/ff_workforce_time.csv",
+        "format": { "type": "csv", "parse": { "volunteer_firefighters": "number" } }
+      },
+      "transform": [
+        {"filter": "datum.year == '2015-16' || datum.year == '2024-25'"},
+        {"calculate": "datum.year == '2015-16' ? 0 : 1", "as": "x_pos"}
+      ],
+      "mark": { "type": "circle", "size": 70 },
+      "encoding": {
+        "x": {"field": "x_pos", "type": "quantitative"},
+        "y": {"field": "volunteer_firefighters", "type": "quantitative"},
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "scale": {
+            "domain": ["NSW",     "VIC",     "QLD",     "WA",      "SA",      "TAS",     "ACT",     "NT"],
+            "range":  ["#CC2200", "#FF8C00", "#FFDA6B", "#4caf7d", "#5BC8F5", "#c46ab0", "#b388ff", "#e06c4a"]
+          }
+        },
+        "tooltip": [
+          {"field": "state",                  "type": "nominal",      "title": "State"},
+          {"field": "year",                   "type": "nominal",       "title": "Year"},
+          {"field": "volunteer_firefighters", "type": "quantitative",  "title": "Volunteers", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "description": "LEFT side labels (2015-16)",
+      "data": {
+        "values": [
+          {"state": "NSW", "x_pos": 0, "y": 79221, "dy_px":   0},
+          {"state": "VIC", "x_pos": 0, "y": 35585, "dy_px":   0},
+          {"state": "WA",  "x_pos": 0, "y": 20492, "dy_px":   0},
+          {"state": "QLD", "x_pos": 0, "y": 14217, "dy_px":   0},
+          {"state": "SA",  "x_pos": 0, "y": 10828, "dy_px":   0},
+          {"state": "TAS", "x_pos": 0, "y":  4035, "dy_px":   0},
+          {"state": "ACT", "x_pos": -0.12, "y":  1444, "dy_px":   0},
+          {"state": "NT",  "x_pos": 0, "y":   296, "dy_px":   0}
+        ]
+      },
+      "mark": { "type": "text", "align": "right", "dx": -8, "fontSize": 11, "fontWeight": "bold" },
+      "encoding": {
+        "x": {
+          "field": "x_pos",
+          "type": "quantitative",
+          "scale": { "domain": [-0.6, 1.6] }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "dy": {"field": "dy_px", "scale": null},
+        "text": {"field": "state"},
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "scale": {
+            "domain": ["NSW",     "VIC",     "QLD",     "WA",      "SA",      "TAS",     "ACT",     "NT"],
+            "range":  ["#CC2200", "#FF8C00", "#FFDA6B", "#4caf7d", "#5BC8F5", "#c46ab0", "#b388ff", "#e06c4a"]
+          }
+        }
+      }
+    },
+    {
+      "description": "RIGHT side labels (2024-25)",
+      "data": {
+        "values": [
+          {"state": "NSW", "x_pos": 1, "y": 50520, "dy_px":   0},
+          {"state": "VIC", "x_pos": 1, "y": 28753, "dy_px":   0},
+          {"state": "WA",  "x_pos": 1, "y": 14643, "dy_px":   0},
+          {"state": "QLD", "x_pos": 1.12, "y": 10900, "dy_px": 0},
+          {"state": "SA",  "x_pos": 1, "y": 10720, "dy_px":   0},
+          {"state": "TAS", "x_pos": 1, "y":  3679, "dy_px":   0},
+          {"state": "ACT", "x_pos": 1.12, "y":   991, "dy_px":  0},
+          {"state": "NT",  "x_pos": 1, "y":   646, "dy_px":   0}
+        ]
+      },
+      "mark": { "type": "text", "align": "left", "dx": 8, "fontSize": 11, "fontWeight": "bold" },
+      "encoding": {
+        "x": {
+          "field": "x_pos",
+          "type": "quantitative",
+          "scale": {"domain": [-0.6, 1.6]}
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "dy": {"field": "dy_px", "scale": null},
+        "text": {"field": "state"},
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "scale": {
+            "domain": ["NSW",     "VIC",     "QLD",     "WA",      "SA",      "TAS",     "ACT",     "NT"],
+            "range":  ["#CC2200", "#FF8C00", "#FFDA6B", "#4caf7d", "#5BC8F5", "#c46ab0", "#b388ff", "#e06c4a"]
+          }
+        }
+      }
+    }
+  ]
+}

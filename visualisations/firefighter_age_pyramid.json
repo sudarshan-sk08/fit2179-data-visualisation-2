@@ -1,0 +1,85 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 420,
+  "background": "#111010",
+  "config": {
+    "view": { "stroke": "transparent" },
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#252220",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 12
+    },
+    "legend": { "disable": true },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Firefighter Age Pyramid",
+    "subtitle": "_                                  Volunteers (120,852 total)                             Salaried (19,130 total) "
+  },
+  "data": {
+    "url": "../data/ff_age_pyramid.csv",
+    "format": {
+      "type": "csv",
+      "parse": { "count": "number" }
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.type == 'Volunteer' ? -datum.count : datum.count",
+      "as": "signed_count"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopRight": 3,
+    "cornerRadiusBottomRight": 3,
+    "cornerRadiusTopLeft": 3,
+    "cornerRadiusBottomLeft": 3
+  },
+  "encoding": {
+    "y": {
+      "field": "age_group",
+      "type": "ordinal",
+      "sort": ["60+", "50-59", "40-49", "30-39", "Under 30"],
+      "axis": {
+        "title": "Age group",
+        "labelFontSize": 12,
+        "labelFontWeight": "bold"
+      }
+    },
+    "x": {
+      "field": "signed_count",
+      "type": "quantitative",
+      "scale": { "domain": [-65000, 65000] },
+      "axis": {
+        "title": "Firefighter count (thousands)",
+        "titleFontSize": 11,
+        "labelExpr": "abs(datum.value) / 1000"
+      }
+    },
+    "color": {
+      "field": "type",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Salaried", "Volunteer"],
+        "range":  ["#FFDA6B",  "#CC2200"]
+      }
+    },
+    "tooltip": [
+      { "field": "type",      "type": "nominal",      "title": "Type" },
+      { "field": "age_group", "type": "nominal",       "title": "Age Group" },
+      { "field": "count",     "type": "quantitative",  "title": "Count", "format": ",.0f" }
+    ]
+  }
+}

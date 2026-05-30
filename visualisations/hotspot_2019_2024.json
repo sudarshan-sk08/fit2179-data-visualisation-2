@@ -1,0 +1,135 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "NASA FIRMS VIIRS fire hotspot map",
+  "width": 800,
+  "height": 600,
+  "background": "#111010",
+  "config": {
+    "view": { "stroke": "transparent" },
+    "legend": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "labelFontSize": 11,
+      "titleFontSize": 11
+    },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Fire Hotspot Detections Across Australia",
+    "subtitle": "Use the slider to view different years. Data from NASA FIRMS VIIRS"
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [134, -28],
+    "scale": 800
+  },
+  "params": [
+    {
+      "name": "selectedYear",
+      "value": 2020,
+      "bind": {
+        "input": "range",
+        "min": 2020,
+        "max": 2024,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "description": "Ocean background",
+      "data": { "sphere": true },
+      "mark": { "type": "geoshape", "fill": "#111010", "stroke": "none" }
+    },
+    {
+      "description": "State base fills",
+      "data": {
+        "url": "../data/states.geojson",
+        "format": { "type": "json", "property": "features" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#82a2c0",
+        "stroke": "#444444",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "description": "Hotspot dots, size=count, colour=avg FRP",
+      "data": {
+        "url": "../data/hotspots_rich.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "longitude": "number",
+            "latitude":  "number",
+            "count":     "number",
+            "avg_frp":   "number",
+            "year":      "number"
+          }
+        }
+      },
+      "transform": [
+        { "filter": "datum.year == selectedYear" }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "none"
+      },
+      "encoding": {
+        "longitude": { "field": "longitude", "type": "quantitative" },
+        "latitude":  { "field": "latitude",  "type": "quantitative" },
+        "size": {
+          "field": "count",
+          "type": "quantitative",
+          "scale": { "type": "sqrt", "range": [8, 350] },
+          "legend": {
+            "title": "Detections",
+            "orient": "bottom-right",
+            "values": [1, 25, 100, 376],
+            "symbolFillColor": "#888888"
+          }
+        },
+        "color": {
+          "field": "avg_frp",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "domain": [50, 608],
+            "range": ["#FFDA6B", "#FF8C00", "#CC2200"]
+          },
+          "legend": {
+            "title": "Avg Intensity (MW)",
+            "orient": "bottom-left",
+            "gradientLength": 150,
+            "gradientThickness": 10,
+            "format": ".0f"
+          }
+        }
+        
+      }
+    },
+    {
+      "description": "State borders on top",
+      "data": {
+        "url": "../data/states.geojson",
+        "format": { "type": "json", "property": "features" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "transparent",
+        "stroke": "#555555",
+        "strokeWidth": 0.7
+      }
+    }
+  ]
+}

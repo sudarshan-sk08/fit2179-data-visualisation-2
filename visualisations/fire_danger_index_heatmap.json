@@ -1,0 +1,151 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Heatmap of average FFDI by Victorian fire region and month.",
+  "width": 900,
+  "height": 320,
+  "background": "#111010",
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#111010",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 11
+    },
+    "legend": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65"
+    },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Forest Fire Danger Index (FFDI) Across Victoria",
+    "subtitle": "Monthly average by region and month"
+  },
+  "params": [
+    {
+      "name": "selectedSeason",
+      "value": 0,
+      "bind": {
+        "input": "select",
+        "name": "Fire Season: ",
+        "options": [0, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+        "labels": [
+          "All Seasons (2015-2024)",
+          "2015-16",
+          "2016-17",
+          "2017-18",
+          "2018-19",
+          "2019-20 (Black Summer)",
+          "2020-21",
+          "2021-22",
+          "2022-23",
+          "2023-24"
+        ]
+      }
+    }
+  ],
+  "data": {
+    "url": "../data/ffdi-data.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Calendar year":  "number",
+        "Calendar month": "number",
+        "Average FFDI":   "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum['Calendar month'] >= 7 ? datum['Calendar year'] + 1 : datum['Calendar year']",
+      "as": "fire_season_year"
+    },
+    {
+      "filter": "selectedSeason == 0 || datum.fire_season_year == selectedSeason"
+    },
+    {
+      "calculate": "['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum['Calendar month']]",
+      "as": "month_name"
+    },
+    {
+      "aggregate": [
+        { "op": "mean", "field": "Average FFDI", "as": "avg_ffdi" }
+      ],
+      "groupby": ["Region", "month_name"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rect", "cornerRadius": 2},
+      "encoding": {
+        "x": {
+          "field": "month_name",
+          "type": "ordinal",
+          "sort": ["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+          "axis": {"title": "Month", "labelFontSize": 12}
+        },
+        "y": {
+          "field": "Region",
+          "type": "nominal",
+          "sort": ["Mallee","Wimmera","Northern Country","North Central","Central","South West","North East","West and South Gippsland","East Gippsland"],
+          "axis": {"title": "Region", "labelFontSize": 12}
+        },
+        "color": {
+          "field": "avg_ffdi",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 35],
+            "range": ["#1a1917", "#FF8C00", "#CC2200"]
+          },
+          "legend": {
+            "title": "Avg FFDI",
+            "orient": "right",
+            "gradientLength": 180,
+            "gradientThickness": 12
+          }
+        },
+        "tooltip": [
+          {"field": "Region",     "type": "nominal",      "title": "Region"},
+          {"field": "month_name", "type": "nominal",       "title": "Month"},
+          {"field": "avg_ffdi",   "type": "quantitative",  "title": "Average FFDI", "format": ".2f"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.avg_ffdi >= 15"}],
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#111010"
+      },
+      "encoding": {
+        "x": {
+          "field": "month_name",
+          "type": "ordinal",
+          "sort": ["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"]
+        },
+        "y": {
+          "field": "Region",
+          "type": "nominal",
+          "sort": ["Mallee","Wimmera","Northern Country","North Central","Central","South West","North East","West and South Gippsland","East Gippsland"]
+        },
+        "text": {
+          "field": "avg_ffdi",
+          "type": "quantitative",
+          "format": ".0f"
+        }
+      }
+    }
+  ]
+}

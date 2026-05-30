@@ -1,0 +1,164 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bump chart showing each state's ranking by highest maximum temperature per year. Rank 1 = hottest state that year. Shows whether the same states dominate or whether rankings shuffle over time.",
+  "width": 800,
+  "height": 420,
+  "background": "#111010",
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#252220",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 12
+    },
+    "legend": {"disable": true},
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "State Maximum Temperature Ranking",
+    "subtitle": "The hottest maximum temperature is awarded a rank of 1"
+  },
+  "data": {
+    "url": "../data/states-max-min-temp.csv",
+    "format": {
+      "type": "csv",
+      "parse": {"year": "number", "max_temp": "number", "min_temp": "number"}
+    }
+  },
+  "transform": [
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "max_temp", "order": "descending"}],
+      "groupby": ["year"]
+    },
+    {
+      "lookup": "state",
+      "from": {
+        "data": {
+          "values": [
+            {"state": "NSW", "state_full": "New South Wales",    "color": "#e06c4a"},
+            {"state": "VIC", "state_full": "Victoria",           "color": "#5b9bd5"},
+            {"state": "QLD", "state_full": "Queensland",         "color": "#f0a500"},
+            {"state": "SA",  "state_full": "South Australia",    "color": "#c46ab0"},
+            {"state": "WA",  "state_full": "Western Australia",  "color": "#4caf7d"},
+            {"state": "TAS", "state_full": "Tasmania",           "color": "#8ecae6"},
+            {"state": "NT",  "state_full": "Northern Territory", "color": "#b388ff"}
+          ]
+        },
+        "key": "state",
+        "fields": ["state_full", "color"]
+      }
+    }
+  ],
+  "layer": [
+    {
+      "description": "Lines connecting rank positions year to year per state",
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.5,
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": { "title": "Year", "labelAngle": 0, "labelFontSize": 12 }
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "scale": { "domain": [7.5, 0.5] },
+          "axis": {
+            "title": "Rank",
+            "tickMinStep": 1,
+            "tickCount": 7,
+            "values": [1, 2, 3, 4, 5, 6, 7],
+            "format": "d"
+          }
+        },
+        "color": {
+          "field": "color",
+          "type": "nominal",
+          "scale": null
+        },
+        "detail": { "field": "state" },
+        "opacity": { "value": 0.85 }
+      }
+    },
+    {
+      "description": "Dots at each rank position",
+      "mark": { "type": "circle", "size": 90 },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "rank", "type": "quantitative"},
+        "color": {
+          "field": "color",
+          "type": "nominal",
+          "scale": null
+        },
+        "tooltip": [
+          {"field": "state_full", "type": "nominal",      "title": "State"},
+          {"field": "year",       "type": "ordinal",      "title": "Year"},
+          {"field": "rank",       "type": "quantitative", "title": "Rank"},
+          {"field": "max_temp",   "type": "quantitative", "title": "Highest Max Temp (°C)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "State label at the RIGHT end of each line",
+      "transform": [
+        {"filter": "datum.year == 2026"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "rank", "type": "quantitative"},
+        "text": {"field": "state"},
+        "color": {
+          "field": "color",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "description": "State label at the LEFT end of each line",
+      "transform": [
+        {"filter": "datum.year == 2016"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -8,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "rank", "type": "quantitative"},
+        "text": {"field": "state"},
+        "color": {
+          "field": "color",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    }
+  ]
+}

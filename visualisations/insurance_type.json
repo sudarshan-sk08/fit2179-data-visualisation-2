@@ -1,0 +1,203 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "100% normalized stacked bar chart showing the breakdown of insurance claims by type for each major Australian bushfire event",
+  "width": 720,
+  "height": 360,
+  "background": "#111010",
+  "config": {
+    "view": { "stroke": "transparent" },
+    "axis": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "gridColor": "#252220",
+      "domainColor": "#353030",
+      "tickColor": "#353030",
+      "labelFontSize": 11
+    },
+    "legend": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "labelFontSize": 11
+    },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    }
+  },
+  "title": {
+    "text": "Insurance Claims by Type",
+    "subtitle": "Proportion of insurance claims by category per event"
+  },
+  "data": {
+    "values": [
+      {"event": "Victorian Bushfires 2026", "year": 2026, "category": "Domestic - Building",           "count": 1157},
+      {"event": "Victorian Bushfires 2026", "year": 2026, "category": "Domestic - Contents",           "count": 820},
+      {"event": "Victorian Bushfires 2026", "year": 2026, "category": "Domestic - Motor & Other",      "count": 407},
+      {"event": "Victorian Bushfires 2026", "year": 2026, "category": "Commercial - Property",         "count": 1844},
+      {"event": "Victorian Bushfires 2026", "year": 2026, "category": "Commercial - Motor, BI & Other","count": 553},
+
+      {"event": "Perth Hills 2021",         "year": 2021, "category": "Domestic - Building",           "count": 245},
+      {"event": "Perth Hills 2021",         "year": 2021, "category": "Domestic - Contents",           "count": 247},
+      {"event": "Perth Hills 2021",         "year": 2021, "category": "Domestic - Motor & Other",      "count": 86},
+      {"event": "Perth Hills 2021",         "year": 2021, "category": "Commercial - Property",         "count": 617},
+      {"event": "Perth Hills 2021",         "year": 2021, "category": "Commercial - Motor, BI & Other","count": 147},
+
+      {"event": "Black Summer 2019-20",     "year": 2019, "category": "Domestic - Building",           "count": 9665},
+      {"event": "Black Summer 2019-20",     "year": 2019, "category": "Domestic - Contents",           "count": 14355},
+      {"event": "Black Summer 2019-20",     "year": 2019, "category": "Domestic - Motor & Other",      "count": 2371},
+      {"event": "Black Summer 2019-20",     "year": 2019, "category": "Commercial - Property",         "count": 8883},
+      {"event": "Black Summer 2019-20",     "year": 2019, "category": "Commercial - Motor, BI & Other","count": 3634},
+
+      {"event": "Bunyip 2019",              "year": 2019, "category": "Domestic - Building",           "count": 142},
+      {"event": "Bunyip 2019",              "year": 2019, "category": "Domestic - Contents",           "count": 147},
+      {"event": "Bunyip 2019",              "year": 2019, "category": "Domestic - Motor & Other",      "count": 32},
+      {"event": "Bunyip 2019",              "year": 2019, "category": "Commercial - Property",         "count": 90},
+      {"event": "Bunyip 2019",              "year": 2019, "category": "Commercial - Motor, BI & Other","count": 108},
+
+      {"event": "Tathra 2018",              "year": 2018, "category": "Domestic - Building",           "count": 364},
+      {"event": "Tathra 2018",              "year": 2018, "category": "Domestic - Contents",           "count": 320},
+      {"event": "Tathra 2018",              "year": 2018, "category": "Domestic - Motor & Other",      "count": 67},
+      {"event": "Tathra 2018",              "year": 2018, "category": "Commercial - Property",         "count": 220},
+      {"event": "Tathra 2018",              "year": 2018, "category": "Commercial - Motor, BI & Other","count": 61},
+
+      {"event": "Yarloop 2016",             "year": 2016, "category": "Domestic - Building",           "count": 390},
+      {"event": "Yarloop 2016",             "year": 2016, "category": "Domestic - Contents",           "count": 585},
+      {"event": "Yarloop 2016",             "year": 2016, "category": "Domestic - Motor & Other",      "count": 97},
+      {"event": "Yarloop 2016",             "year": 2016, "category": "Commercial - Property",         "count": 234},
+      {"event": "Yarloop 2016",             "year": 2016, "category": "Commercial - Motor, BI & Other","count": 52},
+
+      {"event": "Great Ocean Rd 2015",      "year": 2015, "category": "Domestic - Building",           "count": 235},
+      {"event": "Great Ocean Rd 2015",      "year": 2015, "category": "Domestic - Contents",           "count": 177},
+      {"event": "Great Ocean Rd 2015",      "year": 2015, "category": "Domestic - Motor & Other",      "count": 28},
+      {"event": "Great Ocean Rd 2015",      "year": 2015, "category": "Commercial - Property",         "count": 65},
+      {"event": "Great Ocean Rd 2015",      "year": 2015, "category": "Commercial - Motor, BI & Other","count": 22}
+    ]
+  },
+  "transform": [
+    {
+      "joinaggregate": [
+        { "op": "sum", "field": "count", "as": "event_total" }
+      ],
+      "groupby": ["event"]
+    },
+    {
+      "calculate": "datum.count / datum.event_total",
+      "as": "pct"
+    }
+  ],
+  "layer": [
+    {
+      "description": "Normalized stacked bars",
+      "mark": { "type": "bar" },
+      "encoding": {
+        "y": {
+          "field": "event",
+          "type": "nominal",
+          "sort": [
+            "Victorian Bushfires 2026",
+            "Perth Hills 2021",
+            "Black Summer 2019-20",
+            "Bunyip 2019",
+            "Tathra 2018",
+            "Yarloop 2016",
+            "Great Ocean Rd 2015"
+          ],
+          "axis": { "title": null, "labelFontSize": 11 }
+        },
+        "x": {
+          "field": "count",
+          "type": "quantitative",
+          "stack": "normalize",
+          "axis": {
+            "title": "Proportion of Claims",
+            "format": "%",
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "sort": [
+            "Domestic - Building",
+            "Domestic - Contents",
+            "Domestic - Motor & Other",
+            "Commercial - Property",
+            "Commercial - Motor, BI & Other"
+          ],
+          "scale": {
+            "domain": [
+              "Domestic - Building",
+              "Domestic - Contents",
+              "Domestic - Motor & Other",
+              "Commercial - Property",
+              "Commercial - Motor, BI & Other"
+            ],
+            "range": ["#CC2200", "#FF8C00", "#FFDA6B", "#4B8DB8", "#8BC4E0"]
+          },
+          "legend": {
+            "title": "Claim Type",
+            "orient": "bottom",
+            "columns": 3
+          }
+        },
+        "order": {
+          "field": "category",
+          "sort": "ascending"
+        },
+        "tooltip": [
+          { "field": "event",       "type": "nominal",      "title": "Event" },
+          { "field": "category",    "type": "nominal",       "title": "Claim Type" },
+          { "field": "count",       "type": "quantitative",  "title": "Claims" },
+          { "field": "event_total", "type": "quantitative",  "title": "Total Claims" },
+          { "field": "pct",         "type": "quantitative",  "title": "Share",         "format": ".1%" }
+        ]
+      }
+    },
+    {
+      "description": "Percentage labels inside bars for segments >= 9%",
+      "transform": [
+        { "filter": "datum.pct >= 0.09" }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#111010"
+      },
+      "encoding": {
+        "y": {
+          "field": "event",
+          "type": "nominal",
+          "sort": [
+            "Victorian Bushfires 2026",
+            "Perth Hills 2021",
+            "Black Summer 2019 - 20",
+            "Bunyip 2019",
+            "Tathra 2018",
+            "Yarloop 2016",
+            "Great Ocean Rd 2015"
+          ]
+        },
+        "x": {
+          "field": "count",
+          "type": "quantitative",
+          "stack": "normalize",
+          "bandPosition": 0.5
+        },
+        "text": {
+          "field": "pct",
+          "type": "quantitative",
+          "format": ".0%"
+        },
+        "order": {
+          "field": "category",
+          "sort": "ascending"
+        }
+      }
+    }
+  ]
+}

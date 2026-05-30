@@ -1,0 +1,97 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Dot matrix chart showing Australia's firefighting workforce in 2024-25",
+  "background": "#111010",
+  "config": {
+    "view": { "stroke": "transparent" },
+    "axis":   { "disable": true },
+    "legend": {
+      "labelColor": "#e8e0d5",
+      "titleColor": "#7a6e65",
+      "labelFontSize": 12
+    },
+    "title": {
+      "color": "#e8e0d5",
+      "subtitleColor": "#7a6e65",
+      "anchor": "start",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "offset": 14
+    },
+    "facet": { "spacing": 12 },
+    "header": {
+      "labelColor": "#e8e0d5",
+      "labelFontSize": 13,
+      "labelFontWeight": "bold",
+      "titleColor": "#7a6e65"
+    }
+  },
+  "title": {
+    "text": "Firefighter Breakdown by State",
+    "subtitle": "Each dot represents 500 firefighters. Data shown for the 2024-2025 season"
+  },
+  "data": {
+    "url": "../data/ff_dot_matrix.csv",
+    "format": {
+      "type": "csv",
+      "parse": { "x": "number", "y": "number" }
+    }
+  },
+  "facet": {
+    "column": {
+      "field": "state",
+      "type": "nominal",
+      "sort": ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"],
+      "header": {
+        "title": null,
+        "labelFontSize": 13,
+        "labelFontWeight": "bold",
+        "labelColor": "#e8e0d5"
+      }
+    }
+  },
+  "spec": {
+    "width":  100,
+    "height": 200,
+    "mark": {
+      "type": "circle",
+      "size": 55,
+      "opacity": 0.92
+    },
+    "encoding": {
+      "x": {
+        "field": "x",
+        "type": "quantitative",
+        "scale": { "domain": [-0.5, 7.5] },
+        "axis": null
+      },
+      "y": {
+        "field": "y",
+        "type": "quantitative",
+        "sort": "descending",
+        "scale": { "domain": [-0.5, 14] },
+        "axis": null
+      },
+      "color": {
+        "field": "type",
+        "type": "nominal",
+        "scale": {
+          "domain": ["Salaried", "Volunteer"],
+          "range":  ["#FFDA6B",  "#CC2200"]
+        },
+        "legend": {
+          "title": null,
+          "orient": "bottom",
+          "symbolSize": 100,
+          "symbolType": "circle"
+        }
+      },
+      "tooltip": [
+        { "field": "state",    "type": "nominal",     "title": "State" },
+        { "field": "type",     "type": "nominal",      "title": "Type" },
+        { "field": "sal_dots", "type": "quantitative", "title": "Salaried dots" },
+        { "field": "vol_dots", "type": "quantitative", "title": "Volunteer dots" }
+      ]
+    }
+  }
+}
