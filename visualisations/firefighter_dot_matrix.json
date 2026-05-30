@@ -31,7 +31,7 @@
     "subtitle": "Each dot represents 500 firefighters. Data shown for the 2024-2025 season"
   },
   "data": {
-    "url": "../data/ff_dot_matrix.csv",
+    "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/ff_dot_matrix.csv",
     "format": {
       "type": "csv",
       "parse": { "x": "number", "y": "number" }
