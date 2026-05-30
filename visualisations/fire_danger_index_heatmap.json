@@ -55,7 +55,7 @@
     }
   ],
   "data": {
-    "url": "../data/ffdi-data.csv",
+    "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/ffdi-data.csv",
     "format": {
       "type": "csv",
       "parse": {
