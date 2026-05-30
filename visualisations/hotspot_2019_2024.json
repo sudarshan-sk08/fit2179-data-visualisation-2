@@ -52,7 +52,7 @@
     {
       "description": "State base fills",
       "data": {
-        "url": "../data/states.geojson",
+        "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/states.geojson",
         "format": { "type": "json", "property": "features" }
       },
       "mark": {
@@ -65,7 +65,7 @@
     {
       "description": "Hotspot dots, size=count, colour=avg FRP",
       "data": {
-        "url": "../data/hotspots_rich.csv",
+        "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/hotspots_rich.csv",
         "format": {
           "type": "csv",
           "parse": {
