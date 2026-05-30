@@ -94,7 +94,7 @@
       "encoding": {
         "x": {
           "field": "Year",
-          "type": "quantitative",
+          "type": "temporal",
           "timeUnit": "year"
         },
 
