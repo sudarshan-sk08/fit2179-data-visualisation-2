@@ -32,7 +32,7 @@
     {
       "description": "Slope lines",
       "data": {
-        "url": "../data/ff_workforce_time.csv",
+        "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/ff_workforce_time.csv",
         "format": {"type": "csv", "parse": { "volunteer_firefighters": "number" }}
       },
       "transform": [
