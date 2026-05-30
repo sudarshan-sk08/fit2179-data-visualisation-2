@@ -36,7 +36,7 @@
   },
 
   "data": {
-    "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/refs/heads/main/data/aus-annual-area-burnt-by-wildfires.csv",
+    "url": "https://raw.githubusercontent.com/sudarshan-sk08/fit2179-data-visualisation-2/main/data/aus-annual-area-burnt-by-wildfires.csv",
     "format": {
       "type": "csv"
     }
